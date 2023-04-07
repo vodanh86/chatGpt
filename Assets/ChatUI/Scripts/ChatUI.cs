@@ -25,6 +25,9 @@ public class ChatUI : MonoBehaviour {
 
     [Header("MessageBox")]
     public GameObject dateTimeTag;
+
+    public Api objApi;
+
     public GameObject noticeTag;
     public GameObject chatLeftMessageBox;
     public AudioClip chatLeftMessageSound;
@@ -74,13 +77,16 @@ public class ChatUI : MonoBehaviour {
             {
                 if (inputField.text == "")
                     return;
-
                 AddChatMessage(inputField.text, enumChatMessageType.MessageRight);
                 if (OnChatMessage != null)
                     OnChatMessage(inputField.text, enumChatMessageType.MessageRight);
                 //AddLeftChatMessageBox(inputField.text);
                 inputField.text = "";
-                inputField.ActivateInputField();
+                InputField tmpInputField = inputField;
+                objApi.CallApi(inputField.text, () =>{
+                    tmpInputField.ActivateInputField();
+                });
+ 
             });
         }
 
@@ -363,7 +369,6 @@ public class ChatUI : MonoBehaviour {
             {
                 Text txt = tranText.GetComponent<Text>();
                 txt.text = text;
-
                 prevText = txt;
 
                 //计算文字的大小
@@ -379,7 +384,6 @@ public class ChatUI : MonoBehaviour {
                 //float txtHeight = tg.GetPreferredHeight(txt.text.Substring(0, 1), settings) / txt.pixelsPerUnit;
                 float txtHeight = tg.GetPreferredHeight(txt.text, settings) / txt.pixelsPerUnit;
 
-
                 //2021-05-26修正带有中文字符在3-5个时，出现的文字被裁切的问题
                 if (txt.text.Length>3 && txt.text.Length<=5)
                 {
@@ -390,14 +394,12 @@ public class ChatUI : MonoBehaviour {
                        txtWidth = txtWidth * checkChineseString(txt.text);
                     }
                 }
-
                 if (txtWidth + MESSAGE_ICONS_WIDTH < MESSAGE_MIN_WIDTH)
                 {
                     //设置自己为最小宽度
                     rectChat.offsetMax = new Vector2(rectChat.offsetMin.x + MESSAGE_MIN_WIDTH, rectChat.offsetMax.y);
 
                 }
-
                 if (txtWidth + MESSAGE_ICONS_WIDTH > MESSAGE_MIN_WIDTH && txtWidth<MESSAGE_MAX_WIDTH)
                 {
                     //单行，设置宽度
@@ -405,7 +407,6 @@ public class ChatUI : MonoBehaviour {
                     if (messageType == enumChatMessageType.MessageRight) wth += MESSAGE_RIGHT_MAGIN;
                     rectChat.offsetMax = new Vector2(rectChat.offsetMin.x + wth, rectChat.offsetMax.y);
                 }
-
                 if (txtWidth + MESSAGE_ICONS_WIDTH > MESSAGE_MAX_WIDTH)
                 {
                     //多行，设置最宽的宽度
@@ -418,9 +419,7 @@ public class ChatUI : MonoBehaviour {
                     rectChat.offsetMax = new Vector2(rectChat.offsetMin.x + MESSAGE_MAX_WIDTH, rectChat.offsetMax.y + hh);
 
                 }
-
             }
-
             float rectWidth = rectChat.offsetMax.x - rectChat.offsetMin.x;
             float rectHeight = rectChat.offsetMax.y - rectChat.offsetMin.y;
 
