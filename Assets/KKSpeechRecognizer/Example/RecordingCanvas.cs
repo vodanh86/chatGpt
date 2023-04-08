@@ -7,7 +7,7 @@ using TMPro;
 public class RecordingCanvas : MonoBehaviour
 {
   public Button startRecordingButton;
-  public Text resultText;
+  public InputField resultText;
 
   void Start()
   {

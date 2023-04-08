@@ -81,12 +81,12 @@ public class ChatUI : MonoBehaviour {
                 if (OnChatMessage != null)
                     OnChatMessage(inputField.text, enumChatMessageType.MessageRight);
                 //AddLeftChatMessageBox(inputField.text);
-                inputField.text = "";
                 InputField tmpInputField = inputField;
-                objApi.CallApi(inputField.text, () =>{
+                objApi.CallApi(inputField.text, (string result) => {
+                    AddChatMessage(result, enumChatMessageType.MessageLeft);
                     tmpInputField.ActivateInputField();
                 });
- 
+                inputField.text = "";
             });
         }
 

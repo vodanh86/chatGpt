@@ -6,14 +6,12 @@ using UnityEngine.UI;
 
 public class Api : MonoBehaviour
 {
-    public void CallApi(string txtInput, Action callback)
+    public void CallApi(string txtInput, Action<string> callback)
     {
-        Debug.Log(3);
         StartCoroutine(Upload(txtInput, callback));
-        Debug.Log(4);
     }
 
-    IEnumerator Upload(string txtInput, Action callback)
+    IEnumerator Upload(string txtInput, Action<string> callback)
     {
         WWWForm form = new WWWForm();
         form.AddField("text", txtInput);
@@ -23,12 +21,11 @@ public class Api : MonoBehaviour
 
         if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log(www.error);
+            callback.Invoke(www.error);
         }
         else
         {
-            Debug.Log(www.downloadHandler.text);
-            callback.Invoke();
+            callback.Invoke(www.downloadHandler.text);
         }
     }
 }
