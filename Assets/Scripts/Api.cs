@@ -6,6 +6,13 @@ using UnityEngine.UI;
 
 public class Api : MonoBehaviour
 {
+    string preInput = "";
+    string preResponse = "";
+
+    //string URL = "http://27.71.226.7:8000/api/getResult";
+
+    string URL = "http://localhost:8000/api/getResult";
+
     public void CallApi(string txtInput, Action<string> callback)
     {
         StartCoroutine(Upload(txtInput, callback));
@@ -14,9 +21,11 @@ public class Api : MonoBehaviour
     IEnumerator Upload(string txtInput, Action<string> callback)
     {
         WWWForm form = new WWWForm();
-        form.AddField("text", txtInput);
+        form.AddField("text", txtInput.Trim());
+        form.AddField("preInput", preInput);
+        form.AddField("preResponse", preResponse);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost:8000/api/getResult", form);
+        UnityWebRequest www = UnityWebRequest.Post(URL, form);
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)
@@ -25,6 +34,8 @@ public class Api : MonoBehaviour
         }
         else
         {
+            preInput = txtInput;
+            preResponse = www.downloadHandler.text;
             callback.Invoke(www.downloadHandler.text);
         }
     }

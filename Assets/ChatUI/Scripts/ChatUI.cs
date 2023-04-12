@@ -75,7 +75,7 @@ public class ChatUI : MonoBehaviour {
         {
             inputField.onEndEdit.AddListener(delegate
             {
-                if (inputField.text == "")
+                if (string.IsNullOrWhiteSpace(inputField.text))
                     return;
                 AddChatMessage(inputField.text, enumChatMessageType.MessageRight);
                 if (OnChatMessage != null)
