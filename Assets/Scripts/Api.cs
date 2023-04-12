@@ -9,9 +9,9 @@ public class Api : MonoBehaviour
     string preInput = "";
     string preResponse = "";
 
-    //string URL = "http://27.71.226.7:8000/api/getResult";
+    //string URL = "http://27.71.226.7:8000/api/getChat";
 
-    string URL = "http://localhost:8000/api/getResult";
+    string URL = "http://localhost:8000/api/getChat";
 
     public void CallApi(string txtInput, Action<string> callback)
     {
