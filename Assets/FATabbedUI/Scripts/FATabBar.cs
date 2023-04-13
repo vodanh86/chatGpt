@@ -27,7 +27,7 @@ public class FATabBar : MonoBehaviour
     /// <para>Gets overriden if used with <see cref="FAScrollSnapBehaviour"/></para>
     /// </summary>
     [Tooltip("Starting Page, gets overriden if used with ScrollSnapBehaviour")]
-    public int startingPage = 2;
+    public int startingPage = 0;
     /// <summary>
     /// As this whole asset utilises Unity's LayoutGroups components, the sliding animation of the buttons is done by manipulating the values of the <see cref="https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/script-VerticalLayoutGroup.html">VerticalLayoutGroup</see> and <see cref="https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/script-LayoutElement.html">LayoutElement</see> components. 
     /// <para>This controls the FlexibleWidth of the button</para>
